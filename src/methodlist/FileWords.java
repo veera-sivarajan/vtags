@@ -16,7 +16,7 @@ public class FileWords {
     numLines = 0;
   }
 
-  public void toWords() throws FileNotFoundException{
+  public Queue<ArrayList<String>> toLines() throws FileNotFoundException{
     Scanner input = new Scanner(new File(file));
     while(input.hasNextLine()) {
       ArrayList<String> stringList = new ArrayList<String>();
@@ -29,6 +29,7 @@ public class FileWords {
       }
       words.insert(stringList);
     }
+    return words;
   }
   
   public void readFirstWords() throws Exception {
