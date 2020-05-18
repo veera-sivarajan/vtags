@@ -8,31 +8,34 @@ public class FilterWords {
 
   public FilterWords(String fileName) {
     reader = new FileWords(fileName);
-    seg1 = new Queue<ArrayList<String>>();
   }
 
-  private Queue<ArrayList<String>> removeLines() throws Exception {
+  //Print lines having containing "public" or "private" and "{"
+  private void removeLines() throws Exception {
     Queue<ArrayList<String>> lines = reader.toLines();
     int count = 0, size = lines.getSize();
     ArrayList<String> oneLine;
     while(count < size) {
       oneLine = lines.remove();
       if(oneLine.size() > 0) //compareTo protected not done
-        if(oneLine.get(0).compareTo("public") == 0 || oneLine.get(0).compareTo("private") == 0) 
-          seg1.insert(oneLine);
+        if(oneLine.get(0).compareTo("public") == 0 || oneLine.get(0).compareTo("private") == 0 && checkLine(oneLine)) {
+          print(count + 1, oneLine);
+        }
       count += 1;
     } 
-    return seg1;
   }
 
+  //Checks if the given line contains "{"
   private boolean checkLine(ArrayList<String> line) {
-    int lastEle = line.size() - 1;
+    int lastEle = line.size() - 1; //Should check char == ";"
     if(line.get(lastEle).compareTo("{") != 0) 
       return false;
     return true;
   }
   
-  private void print(ArrayList<String> line) {
+  //Prints line number in the file and line
+  private void print(int count, ArrayList<String> line) {
+    System.out.print(count + " ");
     for(String word : line) { 
       if(word.compareTo("{") != 0)
         System.out.print(word + " ");
@@ -40,24 +43,9 @@ public class FilterWords {
     System.out.println();
   }
 
-  public void getTags() throws Exception {
-    Queue<ArrayList<String>> seg1 = removeLines();
-    int size = seg1.getSize(), count = 0;
-    ArrayList<String> line;
-    boolean noOpenBracket;
-    while(count < size) {
-      line = seg1.remove();
-      noOpenBracket = checkLine(line);
-      if(noOpenBracket) {
-        print(line);
-      }
-      count += 1;
-    }
-  }
-
   public static void main(String[] args) throws Exception {
-    FilterWords reqLines = new FilterWords("FilterWords.java");
-    reqLines.getTags();
+    FilterWords reqLines = new FilterWords(args[0]);
+    reqLines.removeLines();
   }
 }
          
