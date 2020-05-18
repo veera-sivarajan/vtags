@@ -32,7 +32,7 @@ public class FileWords {
     return words;
   }
   
-  public void readFirstWords() throws Exception {
+  /*public void readFirstWords() throws Exception {
     int count = 0;
     int size = words.getSize();
     while(count < size) {
@@ -47,6 +47,6 @@ public class FileWords {
     FileWords reader = new FileWords(args[0]);
     reader.toWords();
     reader.readFirstWords();
-  }
+  }*/
 }
 
